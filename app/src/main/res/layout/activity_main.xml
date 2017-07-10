@@ -4,14 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.asus.todoclass2.MainActivity">
+    tools:context="com.example.asus.todoclass2.MainActivity"
+    >
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/expenseListView"
-        android:dividerHeight="8dp">
+        android:background="@color/background2"
+        android:divider="@color/background2"
+        >
 
     </ListView>
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_anchor ="@id/linearlayout"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--app:srcCompat="@android:drawable/ic_dialog_email" />-->
+
+
 
 </LinearLayout>
