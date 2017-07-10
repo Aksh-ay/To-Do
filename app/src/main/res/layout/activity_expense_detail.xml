@@ -38,6 +38,17 @@
            android:layout_margin="20dp"
            android:id="@+id/expenseDetailPriceTextView"/>
 
+       <EditText
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="wrap_content"
+           android:inputType="date"
+           android:hint="Enter Date"
+           android:focusable="false"
+           android:layout_margin="20dp"
+           android:id="@+id/expenseDetailDateTextView"/>
+
+
    </LinearLayout>
 
     <Button
