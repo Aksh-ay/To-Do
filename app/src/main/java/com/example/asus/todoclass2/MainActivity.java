@@ -81,14 +81,19 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
 
         updateExpenseList();
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-//            }
-//        });
+                Intent i = new Intent(MainActivity.this, ExpenseDetailActivity.class);
+
+                i.putExtra(IntentConstants.EXPENSE_TITLE,"Add");
+                startActivityForResult(i,2);
+
+            }
+        });
 
     }
 
@@ -258,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
         ExpenseOpenHelper expenseOpenHelper = ExpenseOpenHelper.getOpenHelperInstance(MainActivity.this);
         SQLiteDatabase database = expenseOpenHelper.getWritableDatabase();
         database.delete(ExpenseOpenHelper.Expense_Table_Name,ExpenseOpenHelper.Expense_Id + "=" +Id,null);
-        Toast.makeText(this, "Task Deleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Task Finished", Toast.LENGTH_SHORT).show();
 
 //
 
