@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
 //                        .setAction("Action", null).show();
                 Intent i = new Intent(MainActivity.this, ExpenseDetailActivity.class);
 
-                i.putExtra(IntentConstants.EXPENSE_TITLE,"Add");
+                i.putExtra(IntentConstants.EXPENSE_TITLE,"New Task");
                 startActivityForResult(i,2);
 
             }

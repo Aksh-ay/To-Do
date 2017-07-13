@@ -46,7 +46,8 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         Id = i.getIntExtra("id", -1);
         setTitle(title);
          if (Id!= -1)
-         { double oldprice = i.getDoubleExtra("price",-1);
+         {   setTitle("Update Task");
+             double oldprice = i.getDoubleExtra("price",-1);
              titleTextView.setText(title);
              categoryTextView.setText(i.getStringExtra("category"));
              priceTextView.setText(oldprice+"");
