@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("Tasks");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.expenseListView);
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
                 i.putExtra("category",expenseList.get(position).category);
                 i.putExtra("price",expenseList.get(position).price);
               i.putExtra("id",expenseList.get(position).id);
+//                i.putExtra("dateTime",expenseList.get(position).dateTime);
                 //startActivity(i);
                 startActivityForResult(i, 1);
 
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
             double price = cursor.getDouble(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Price));
             int id = cursor.getInt(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Id));
             String category = cursor.getString(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Category));
+//            Long dateTime = cursor.getLong(cursor.getColumnIndex(ExpenseOpenHelper.Expense_DateTIme));
             Expense e = new Expense(title,id,price,category);
             expenseList.add(e);
         }
@@ -170,63 +173,64 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
             i.putExtra(IntentConstants.EXPENSE_TITLE,"Add");
             startActivityForResult(i,2);
 
-        }else if(R.id.remove == id){
+        }
+//            else if(R.id.remove == id){
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//
+//            builder.setTitle("Delete");
+//            builder.setCancelable(false);
+////            builder.setMessage("Are you sure you want to delete ??");
+//
+//            View v = getLayoutInflater().inflate(R.layout.dialog_view,null);
+//
+//            final  TextView t = (TextView) v.findViewById(R.id.textview);
+//            final EditText et = (EditText) v.findViewById(R.id.edittext);
+//            t.setText("Enter the Item ID you want to delete.");
+//            builder.setView(v);
+//
+//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    int num = Integer.parseInt(et.getText().toString());
+//
+//                    for(int i = 0; i<expenseList.size();i++)
+//                    {  if (expenseList.get(i).id==num)
+//                        expenseList.remove(i);}
+////                    expenseList.remove(num-1);
+////                    for (int i = num-1;i<expenseList.size();i++){
+////                        expenseList.get(i).id=i+1;
+////                    }
+//
+//                    expenseListAdapter.notifyDataSetChanged();
+//                    ExpenseOpenHelper expenseOpenHelper = ExpenseOpenHelper.getOpenHelperInstance(MainActivity.this);
+//                    SQLiteDatabase database = expenseOpenHelper.getWritableDatabase();
+//                    database.delete(ExpenseOpenHelper.Expense_Table_Name,ExpenseOpenHelper.Expense_Id + "=" +num,null);
+////                    ContentValues cv = new ContentValues();
+////                    for(int i=0;i<expenseList.size();i++){
+////                        cv.put(ExpenseOpenHelper.Expense_Id,expenseList.get(i).id);
+////                        cv.put(ExpenseOpenHelper.Expense_TITLE,expenseList.get(i).title);
+////                        cv.put(ExpenseOpenHelper.Expense_Category,expenseList.get(i).category);
+////                        cv.put(ExpenseOpenHelper.Expense_Price,expenseList.get(i).price);
+////                        database.insert(ExpenseOpenHelper.Expense_Table_Name,null,cv);
+////                    }
+//
+//
+//                }
+//            });
+//            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            });
+//
+//            AlertDialog dialog = builder.create();
+//            dialog.show(); }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-
-            builder.setTitle("Delete");
-            builder.setCancelable(false);
-//            builder.setMessage("Are you sure you want to delete ??");
-
-            View v = getLayoutInflater().inflate(R.layout.dialog_view,null);
-
-            final  TextView t = (TextView) v.findViewById(R.id.textview);
-            final EditText et = (EditText) v.findViewById(R.id.edittext);
-            t.setText("Enter the Item ID you want to delete.");
-            builder.setView(v);
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    int num = Integer.parseInt(et.getText().toString());
-
-                    for(int i = 0; i<expenseList.size();i++)
-                    {  if (expenseList.get(i).id==num)
-                        expenseList.remove(i);}
-//                    expenseList.remove(num-1);
-//                    for (int i = num-1;i<expenseList.size();i++){
-//                        expenseList.get(i).id=i+1;
-//                    }
-
-                    expenseListAdapter.notifyDataSetChanged();
-                    ExpenseOpenHelper expenseOpenHelper = ExpenseOpenHelper.getOpenHelperInstance(MainActivity.this);
-                    SQLiteDatabase database = expenseOpenHelper.getWritableDatabase();
-                    database.delete(ExpenseOpenHelper.Expense_Table_Name,ExpenseOpenHelper.Expense_Id + "=" +num,null);
-//                    ContentValues cv = new ContentValues();
-//                    for(int i=0;i<expenseList.size();i++){
-//                        cv.put(ExpenseOpenHelper.Expense_Id,expenseList.get(i).id);
-//                        cv.put(ExpenseOpenHelper.Expense_TITLE,expenseList.get(i).title);
-//                        cv.put(ExpenseOpenHelper.Expense_Category,expenseList.get(i).category);
-//                        cv.put(ExpenseOpenHelper.Expense_Price,expenseList.get(i).price);
-//                        database.insert(ExpenseOpenHelper.Expense_Table_Name,null,cv);
-//                    }
-
-
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-
-        }else if (id == R.id.aboutUs){
+         else if (id == R.id.aboutUs){
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
             Uri uri = Uri.parse("https://www.codingninjas.in");

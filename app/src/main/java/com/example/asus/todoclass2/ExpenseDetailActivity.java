@@ -1,6 +1,7 @@
 package com.example.asus.todoclass2;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
 
@@ -23,7 +25,10 @@ public class ExpenseDetailActivity extends AppCompatActivity {
     EditText categoryTextView;
     EditText priceTextView;
     EditText dateEditText;
-    long date;
+    EditText timeEditText;
+    long time;
+//    long oldtime;
+    Calendar dateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +37,12 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         titleTextView = (EditText) findViewById(R.id.expenseDetailTitleTextView);
         categoryTextView = (EditText) findViewById(R.id.expenseDetailCategoryTextView);
         priceTextView = (EditText) findViewById(R.id.expenseDetailPriceTextView);
+        dateEditText = (EditText) findViewById(R.id.expenseDetailDateTextView);
+        timeEditText = (EditText) findViewById(R.id.expenseDetailTimeTextView);
         Button submitButton = (Button) findViewById(R.id.expenseDetailSubmitButton);
         Intent i = getIntent();
         title   = i.getStringExtra(IntentConstants.EXPENSE_TITLE);
+//        oldtime = i.getLongExtra("dateTime",-1);
         Id = i.getIntExtra("id", -1);
         setTitle(title);
          if (Id!= -1)
@@ -42,8 +50,43 @@ public class ExpenseDetailActivity extends AppCompatActivity {
              titleTextView.setText(title);
              categoryTextView.setText(i.getStringExtra("category"));
              priceTextView.setText(oldprice+"");
+//             Calendar calendar = Calendar.getInstance();
+//             calendar.setTimeInMillis(oldtime);
+
+//             int year = calendar.get(Calendar.YEAR);
+//             int month = calendar.get(Calendar.MONTH);
+//             int day = calendar.get(Calendar.DATE);
+//             int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//             int min = calendar.get(Calendar.MINUTE);
+//             dateEditText.setText(day + "/ "  + month + "/" + year );
+//             timeEditText.setText(hour + ":" + min);
          }
-            submitButton.setOnClickListener(new View.OnClickListener() {
+
+
+        dateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar newCalendar = Calendar.getInstance();
+                int month = newCalendar.get(Calendar.MONTH);  // Current month
+                int year = newCalendar.get(Calendar.YEAR);   // Current year
+                int day= newCalendar.get(Calendar.DATE);
+                showDatePicker(ExpenseDetailActivity.this, year, month, day );
+            }
+        });
+
+
+        timeEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Calendar newCalendar =  Calendar.getInstance();
+                int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
+                int mins = newCalendar.get(Calendar.MINUTE);
+                showTimePicker(ExpenseDetailActivity.this,hour,mins);
+            }
+        });
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newTitle = titleTextView.getText().toString();
@@ -58,13 +101,19 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
                 if (!price.isEmpty()){
                     newPrice = Double.parseDouble(price);
-            }
+
+
+
+
+
+                }
                ExpenseOpenHelper expenseOpenHelper = ExpenseOpenHelper.getOpenHelperInstance(ExpenseDetailActivity.this);
                 SQLiteDatabase database = expenseOpenHelper.getWritableDatabase();
                 ContentValues cv = new ContentValues();
                 cv.put(ExpenseOpenHelper.Expense_TITLE, newTitle);
                 cv.put(ExpenseOpenHelper.Expense_Category,newCategory);
                 cv.put(ExpenseOpenHelper.Expense_Price, newPrice);
+//                cv.put(ExpenseOpenHelper.Expense_DateTIme, time);
 
                 if(Id==-1)
                     database.insert(ExpenseOpenHelper.Expense_Table_Name,null,cv);
@@ -82,16 +131,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
         // Steps for Date picker
         // Will show Date picker dialog on clicking edit text
-        dateEditText = (EditText) findViewById(R.id.expenseDetailDateTextView);
-        dateEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar newCalendar = Calendar.getInstance();
-                int month = newCalendar.get(Calendar.MONTH);  // Current month
-                int year = newCalendar.get(Calendar.YEAR);   // Current year
-                showDatePicker(ExpenseDetailActivity.this, year, month, 1);
-            }
-        });
+
 
 
 
@@ -112,9 +152,8 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                     public void onDateSet(DatePicker datepicker, int year, int month, int day) {
 
                         // To get epoch, You can store this date(in epoch) in database
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, month, day);
-                        date = calendar.getTime().getTime();
+                        dateTime = Calendar.getInstance();
+                        dateTime.set(year, month, day);
                         // Setting date selected in the edit text
                         dateEditText.setText(day + "/" + (month + 1) + "/" + year);
                     }
@@ -122,6 +161,29 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
         //Call show() to simply show the dialog
         datePickerDialog.show();
+
+    }
+
+    public void showTimePicker(Context context , int initialTime , int initialMinute){
+         TimePickerDialog  timePickerDialog = new  TimePickerDialog(context ,
+                 new TimePickerDialog.OnTimeSetListener() {
+                     @Override
+                     public void onTimeSet(TimePicker timePicker, int hourofday, int minute) {
+                         dateTime = Calendar.getInstance();
+                         dateTime.set(Calendar.HOUR_OF_DAY, hourofday);
+                         dateTime.set(Calendar.MINUTE, minute);
+                         time = dateTime.getTime().getTime();
+                         timeEditText.setText(hourofday + ":" + minute);
+                     }
+                 },initialTime,initialMinute,false);
+        timePickerDialog.show();
+
+
+
+
+
+
+
 
     }
 

@@ -7,9 +7,9 @@
         android:title="Add"
         />
 
-    <item
-        android:id="@+id/remove"
-        android:title="Remove" />
+    <!--<item-->
+        <!--android:id="@+id/remove"-->
+        <!--android:title="Remove" />-->
     <item
         android:id="@+id/aboutUs"
         android:title="About Us"/>

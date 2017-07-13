@@ -15,6 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
     public  final static String Expense_Id = "_id";
     public  final static String Expense_Price = "price";
     public  final static String Expense_Category = "category";
+    public  final static String Expense_DateTIme = "dateTime";
     public static  ExpenseOpenHelper expenseOpenHelper;
 
     public  static  ExpenseOpenHelper getOpenHelperInstance (Context context){

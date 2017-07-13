@@ -13,12 +13,13 @@ public class Expense implements Serializable{
     int position;
     double price;
     String category;
-    String description;
+//    long dateTime;
 
     public Expense(String title,int id, double price, String category) {
         this.title = title;
         this.id=id;
         this.price = price;
         this.category = category;
+//        this.dateTime = dateTime;
     }
 }
