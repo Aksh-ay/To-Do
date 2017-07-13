@@ -22,8 +22,8 @@ public class ExpenseDetailActivity extends AppCompatActivity {
     String title;
     int Id;
     EditText titleTextView;
-    EditText categoryTextView;
-    EditText priceTextView;
+//    EditText categoryTextView;
+//    EditText priceTextView;
     EditText dateEditText;
     EditText timeEditText;
     long time;
@@ -35,11 +35,13 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_detail);
         titleTextView = (EditText) findViewById(R.id.expenseDetailTitleTextView);
-        categoryTextView = (EditText) findViewById(R.id.expenseDetailCategoryTextView);
-        priceTextView = (EditText) findViewById(R.id.expenseDetailPriceTextView);
+//        categoryTextView = (EditText) findViewById(R.id.expenseDetailCategoryTextView);
+//        priceTextView = (EditText) findViewById(R.id.expenseDetailPriceTextView);
         dateEditText = (EditText) findViewById(R.id.expenseDetailDateTextView);
         timeEditText = (EditText) findViewById(R.id.expenseDetailTimeTextView);
         Button submitButton = (Button) findViewById(R.id.expenseDetailSubmitButton);
+        Button dateButton = (Button) findViewById(R.id.dateButton);
+        Button timeButton = (Button) findViewById(R.id.timeButton);
         Intent i = getIntent();
         title   = i.getStringExtra(IntentConstants.EXPENSE_TITLE);
         oldtime = i.getLongExtra("epoch",-1);
@@ -47,10 +49,10 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         setTitle(title);
          if (Id!= -1)
          {   setTitle("Update Task");
-             double oldprice = i.getDoubleExtra("price",-1);
+//             double oldprice = i.getDoubleExtra("price",-1);
              titleTextView.setText(title);
-             categoryTextView.setText(i.getStringExtra("category"));
-             priceTextView.setText(oldprice+"");
+//             categoryTextView.setText(i.getStringExtra("category"));
+//             priceTextView.setText(oldprice+"");
              Calendar calendar = Calendar.getInstance();
              calendar.setTimeInMillis(oldtime);
 
@@ -75,6 +77,18 @@ public class ExpenseDetailActivity extends AppCompatActivity {
             }
         });
 
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar newCalendar = Calendar.getInstance();
+                int month = newCalendar.get(Calendar.MONTH);  // Current month
+                int year = newCalendar.get(Calendar.YEAR);   // Current year
+                int day= newCalendar.get(Calendar.DATE);
+                showDatePicker(ExpenseDetailActivity.this, year, month, day );
+
+            }
+        });
+
 
         timeEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,33 +101,40 @@ public class ExpenseDetailActivity extends AppCompatActivity {
             }
         });
 
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar newCalendar =  Calendar.getInstance();
+                int hour = newCalendar.get(Calendar.HOUR_OF_DAY);
+                int mins = newCalendar.get(Calendar.MINUTE);
+                showTimePicker(ExpenseDetailActivity.this,hour,mins);
+            }
+        });
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newTitle = titleTextView.getText().toString();
-                String newCategory = categoryTextView.getText().toString();
-                String price = priceTextView.getText().toString();
-                double newPrice = 0;
+//                String newCategory = categoryTextView.getText().toString();
+//                String price = priceTextView.getText().toString();
+//                double newPrice = 0;
 
                 if(newTitle.trim().isEmpty()){
                     titleTextView.setError("This Field cannont be empty.");
                     return;
                 }
 
-                if (!price.isEmpty()){
-                    newPrice = Double.parseDouble(price);
+//                if (!price.isEmpty()){
+//                    newPrice = Double.parseDouble(price);
+//                }
 
 
-
-
-
-                }
                ExpenseOpenHelper expenseOpenHelper = ExpenseOpenHelper.getOpenHelperInstance(ExpenseDetailActivity.this);
                 SQLiteDatabase database = expenseOpenHelper.getWritableDatabase();
                 ContentValues cv = new ContentValues();
                 cv.put(ExpenseOpenHelper.Expense_TITLE, newTitle);
-                cv.put(ExpenseOpenHelper.Expense_Category,newCategory);
-                cv.put(ExpenseOpenHelper.Expense_Price, newPrice);
+//                cv.put(ExpenseOpenHelper.Expense_Category,newCategory);
+//                cv.put(ExpenseOpenHelper.Expense_Price, newPrice);
                 cv.put(ExpenseOpenHelper.Expense_DateTIme, time);
 
                 if(Id==-1)

@@ -13,8 +13,8 @@ import android.database.sqlite.SQLiteOpenHelper;
     public  final static String Expense_Table_Name = "Expense";
     public  final static String Expense_TITLE = "title";
     public  final static String Expense_Id = "_id";
-    public  final static String Expense_Price = "price";
-    public  final static String Expense_Category = "category";
+//    public  final static String Expense_Price = "price";
+//    public  final static String Expense_Category = "category";
     public  final static String Expense_DateTIme = "dateTime";
     public static  ExpenseOpenHelper expenseOpenHelper;
 
@@ -33,7 +33,7 @@ import android.database.sqlite.SQLiteOpenHelper;
     @Override
     public void onCreate(SQLiteDatabase db) {
       String query = "create table " + Expense_Table_Name +"( " + Expense_Id +" integer primary key autoincrement, " + Expense_TITLE
-              +" text, " + Expense_Price + " real, " + Expense_Category + " text, " + Expense_DateTIme + " bigint);";
+              +" text, " + Expense_DateTIme + " bigint);";
         db.execSQL(query);
     }
 

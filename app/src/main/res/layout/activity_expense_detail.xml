@@ -8,55 +8,110 @@
     tools:context="com.example.asus.todoclass2.MainActivity">
 
 
-       <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:hint="Enter Title"
-           android:layout_weight="1"
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="What is to be done?"
+           android:textStyle="bold"
+           android:textColor="@color/colorPrimary"
            android:layout_margin="20dp"
+           android:textSize="20sp"/>
+
+       <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Enter Task Here"
         android:id="@+id/expenseDetailTitleTextView"/>
 
-       <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:hint="Enter Category"
-        android:layout_margin="20dp"
-        android:layout_weight="1"
-        android:id="@+id/expenseDetailCategoryTextView"/>
 
-       <EditText
+       <!--<EditText-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:hint="Enter Category"-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:id="@+id/expenseDetailCategoryTextView"/>-->
+
+       <!--<EditText-->
+           <!--android:layout_width="wrap_content"-->
+           <!--android:layout_weight="1"-->
+           <!--android:layout_height="0dp"-->
+           <!--android:hint="Enter Price"-->
+           <!--android:layout_margin="20dp"-->
+           <!--android:id="@+id/expenseDetailPriceTextView"/>-->
+       <TextView
            android:layout_width="wrap_content"
-           android:layout_weight="1"
-           android:layout_height="0dp"
-           android:hint="Enter Price"
+           android:layout_height="wrap_content"
            android:layout_margin="20dp"
-           android:id="@+id/expenseDetailPriceTextView"/>
+           android:textStyle="bold"
+           android:text="Due date"
+           android:textColor="@color/colorPrimary"
+           android:textSize="20sp"/>
 
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginRight="20dp"
+           android:layout_marginLeft="20dp">
        <EditText
-           android:layout_width="wrap_content"
-           android:layout_weight="1"
-           android:layout_height="0dp"
-           android:hint="Enter Date"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="8"
+           android:hint="Date not set"
            android:focusable="false"
-           android:layout_margin="20dp"
            android:id="@+id/expenseDetailDateTextView"/>
 
-       <EditText
-           android:layout_width="wrap_content"
-           android:layout_height="0dp"
-           android:hint="Enter Time"
-           android:focusable="false"
+       <Button
+           android:id="@+id/dateButton"
+           android:layout_width="0dp"
            android:layout_weight="1"
-           android:layout_margin="20dp"
+           android:layout_marginLeft="10dp"
+           android:layout_height="40dp"
+           android:background="@drawable/ic_event_black_24dp"
+           android:backgroundTint="@color/colorPrimary"/>
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginRight="20dp"
+           android:layout_marginTop="10dp"
+           android:layout_marginLeft="20dp">
+
+       <EditText
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:hint="Time not set"
+           android:focusable="false"
+           android:layout_weight="8"
            android:id="@+id/expenseDetailTimeTextView"/>
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:text="Submit"
-        android:layout_gravity="center"
-        android:id="@+id/expenseDetailSubmitButton"/>
+       <Button
+           android:id="@+id/timeButton"
+           android:layout_width="0dp"
+           android:layout_height="40dp"
+           android:background="@drawable/ic_schedule_black_24dp"
+           android:backgroundTint="@color/colorPrimary"
+           android:layout_weight="1"
+           android:layout_marginLeft="10dp" />
+
+       </LinearLayout>
+
+
+        <Button
+           android:layout_width="200dp"
+           android:layout_height="wrap_content"
+           android:text="Submit"
+            android:layout_marginTop="20dp"
+           android:layout_gravity="center"
+           android:id="@+id/expenseDetailSubmitButton"/>
+
+
 
 
 </LinearLayout>

@@ -43,17 +43,17 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
     static class ExpenseViewHolder{
 
         CheckBox checkBox;
-        TextView serialNumberTextView;
+//        TextView serialNumberTextView;
         TextView nameTextView;
-        TextView categoryTextView ;
-        TextView priceTextView ;
+//        TextView categoryTextView ;
+//        TextView priceTextView ;
 
-        ExpenseViewHolder(CheckBox checkBox , TextView serialNumberTextView , TextView nameTextView, TextView categoryTextView, TextView priceTextView){
+        ExpenseViewHolder(CheckBox checkBox , TextView nameTextView){
             this.checkBox = checkBox;
-            this.serialNumberTextView = serialNumberTextView;
+//            this.serialNumberTextView = serialNumberTextView;
             this.nameTextView = nameTextView;
-            this.categoryTextView = categoryTextView;
-            this.priceTextView = priceTextView;
+//            this.categoryTextView = categoryTextView;
+//            this.priceTextView = priceTextView;
         }
 
     }
@@ -64,12 +64,12 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
 
         if(convertView == null){
            convertView = LayoutInflater.from(context).inflate(R.layout.list_item,null);
-            TextView serialNumberTextView = (TextView)convertView.findViewById(R.id.serialNumberTextView);
+//            TextView serialNumberTextView = (TextView)convertView.findViewById(R.id.serialNumberTextView);
             CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.checkbox);
             TextView nameTextView = (TextView) convertView.findViewById(R.id.expenseNameTextView);
-            TextView categoryTextView = (TextView) convertView.findViewById(R.id.expenseCategoryTextView);
-            TextView priceTextView = (TextView) convertView.findViewById(R.id.expensePriceTextView);
-            ExpenseViewHolder expenseViewHolder = new ExpenseViewHolder(checkBox , serialNumberTextView,nameTextView, categoryTextView, priceTextView);
+//            TextView categoryTextView = (TextView) convertView.findViewById(R.id.expenseCategoryTextView);
+//            TextView priceTextView = (TextView) convertView.findViewById(R.id.expensePriceTextView);
+            ExpenseViewHolder expenseViewHolder = new ExpenseViewHolder(checkBox ,nameTextView);
             convertView.setTag(expenseViewHolder);
             expenseViewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,10 +89,10 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         Expense e = expenseArrayList.get(position);
         ExpenseViewHolder expenseViewHolder = (ExpenseViewHolder)convertView.getTag();
         expenseViewHolder.checkBox.setChecked(false);
-        expenseViewHolder.serialNumberTextView.setText(e.id+"");
+//        expenseViewHolder.serialNumberTextView.setText(e.id+"");
         expenseViewHolder.nameTextView.setText(e.title);
-        expenseViewHolder.categoryTextView.setText(e.category);
-        expenseViewHolder.priceTextView.setText(e.price+"");
+//        expenseViewHolder.categoryTextView.setText(e.category);
+//        expenseViewHolder.priceTextView.setText(e.price+"");
 
         return  convertView;
     }

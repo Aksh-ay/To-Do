@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
 
                 Intent i = new Intent(MainActivity.this, ExpenseDetailActivity.class);
                 i.putExtra(IntentConstants.EXPENSE_TITLE,expenseList.get(position).title);
-                i.putExtra("category",expenseList.get(position).category);
-                i.putExtra("price",expenseList.get(position).price);
+//                i.putExtra("category",expenseList.get(position).category);
+//                i.putExtra("price",expenseList.get(position).price);
               i.putExtra("id",expenseList.get(position).id);
               i.putExtra("epoch",expenseList.get(position).epoch);
                 //startActivity(i);
@@ -110,11 +110,11 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
         while(cursor.moveToNext()){
 
             String title = cursor.getString(cursor.getColumnIndex(ExpenseOpenHelper.Expense_TITLE));
-            double price = cursor.getDouble(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Price));
+//            double price = cursor.getDouble(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Price));
             int id = cursor.getInt(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Id));
-            String category = cursor.getString(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Category));
+//            String category = cursor.getString(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Category));
             long epoch = cursor.getLong(cursor.getColumnIndex(ExpenseOpenHelper.Expense_DateTIme));
-            Expense e = new Expense(title,id,price,category,epoch);
+            Expense e = new Expense(title,id,epoch);
             expenseList.add(e);
         }
 
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
         ExpenseOpenHelper expenseOpenHelper = ExpenseOpenHelper.getOpenHelperInstance(MainActivity.this);
         SQLiteDatabase database = expenseOpenHelper.getWritableDatabase();
         database.delete(ExpenseOpenHelper.Expense_Table_Name,ExpenseOpenHelper.Expense_Id + "=" +Id,null);
-        Toast.makeText(this, "Task Finished", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Task Deleted", Toast.LENGTH_SHORT).show();
 
 //
 
