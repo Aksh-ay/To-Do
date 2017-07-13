@@ -27,7 +27,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
     EditText dateEditText;
     EditText timeEditText;
     long time;
-//    long oldtime;
+    long oldtime;
     Calendar dateTime;
 
     @Override
@@ -42,7 +42,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         Button submitButton = (Button) findViewById(R.id.expenseDetailSubmitButton);
         Intent i = getIntent();
         title   = i.getStringExtra(IntentConstants.EXPENSE_TITLE);
-//        oldtime = i.getLongExtra("dateTime",-1);
+        oldtime = i.getLongExtra("epoch",-1);
         Id = i.getIntExtra("id", -1);
         setTitle(title);
          if (Id!= -1)
@@ -50,16 +50,16 @@ public class ExpenseDetailActivity extends AppCompatActivity {
              titleTextView.setText(title);
              categoryTextView.setText(i.getStringExtra("category"));
              priceTextView.setText(oldprice+"");
-//             Calendar calendar = Calendar.getInstance();
-//             calendar.setTimeInMillis(oldtime);
+             Calendar calendar = Calendar.getInstance();
+             calendar.setTimeInMillis(oldtime);
 
-//             int year = calendar.get(Calendar.YEAR);
-//             int month = calendar.get(Calendar.MONTH);
-//             int day = calendar.get(Calendar.DATE);
-//             int hour = calendar.get(Calendar.HOUR_OF_DAY);
-//             int min = calendar.get(Calendar.MINUTE);
-//             dateEditText.setText(day + "/ "  + month + "/" + year );
-//             timeEditText.setText(hour + ":" + min);
+             int year = calendar.get(Calendar.YEAR);
+             int month = calendar.get(Calendar.MONTH);
+             int day = calendar.get(Calendar.DATE);
+             int hour = calendar.get(Calendar.HOUR_OF_DAY);
+             int min = calendar.get(Calendar.MINUTE);
+             dateEditText.setText(day + "/ "  + month + "/" + year );
+             timeEditText.setText(hour + ":" + min);
          }
 
 
@@ -113,7 +113,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                 cv.put(ExpenseOpenHelper.Expense_TITLE, newTitle);
                 cv.put(ExpenseOpenHelper.Expense_Category,newCategory);
                 cv.put(ExpenseOpenHelper.Expense_Price, newPrice);
-//                cv.put(ExpenseOpenHelper.Expense_DateTIme, time);
+                cv.put(ExpenseOpenHelper.Expense_DateTIme, time);
 
                 if(Id==-1)
                     database.insert(ExpenseOpenHelper.Expense_Table_Name,null,cv);

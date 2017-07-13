@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
                 i.putExtra("category",expenseList.get(position).category);
                 i.putExtra("price",expenseList.get(position).price);
               i.putExtra("id",expenseList.get(position).id);
-//                i.putExtra("dateTime",expenseList.get(position).dateTime);
+              i.putExtra("epoch",expenseList.get(position).epoch);
                 //startActivity(i);
                 startActivityForResult(i, 1);
 
@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
             double price = cursor.getDouble(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Price));
             int id = cursor.getInt(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Id));
             String category = cursor.getString(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Category));
-//            Long dateTime = cursor.getLong(cursor.getColumnIndex(ExpenseOpenHelper.Expense_DateTIme));
-            Expense e = new Expense(title,id,price,category);
+            long epoch = cursor.getLong(cursor.getColumnIndex(ExpenseOpenHelper.Expense_DateTIme));
+            Expense e = new Expense(title,id,price,category,epoch);
             expenseList.add(e);
         }
 
