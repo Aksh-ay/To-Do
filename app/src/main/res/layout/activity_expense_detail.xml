@@ -76,12 +76,14 @@
        </LinearLayout>
 
        <LinearLayout
+           android:id="@+id/linearlayout"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:orientation="horizontal"
            android:layout_marginRight="20dp"
            android:layout_marginTop="10dp"
-           android:layout_marginLeft="20dp">
+           android:layout_marginLeft="20dp"
+           android:visibility="gone">
 
        <EditText
            android:layout_width="0dp"
@@ -89,7 +91,7 @@
            android:hint="Time not set"
            android:focusable="false"
            android:layout_weight="8"
-           android:id="@+id/expenseDetailTimeTextView"/>
+           android:id="@+id/expenseDetailTimeTextView" />
 
        <Button
            android:id="@+id/timeButton"

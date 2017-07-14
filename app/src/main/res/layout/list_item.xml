@@ -59,14 +59,12 @@
         <TextView
             android:id="@+id/expenseDateTextView"
             android:layout_width="wrap_content"
-            android:text="date"
             android:layout_height="match_parent"
             android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/expenseTimeTextView"
             android:layout_width="wrap_content"
-            android:text="time"
             android:layout_height="match_parent"
             android:textColor="@color/colorPrimary"/>
 

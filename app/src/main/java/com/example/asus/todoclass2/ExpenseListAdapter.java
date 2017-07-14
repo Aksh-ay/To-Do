@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by manishakhattar on 22/06/17.
@@ -20,6 +21,7 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
 
     ArrayList<Expense> expenseArrayList;
     Context context;
+    Long epochTime;
 
       OnCheckBoxClickedListener mlistener;
       void setOnCheckClickedListener(OnCheckBoxClickedListener listener){
@@ -45,13 +47,18 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         CheckBox checkBox;
 //        TextView serialNumberTextView;
         TextView nameTextView;
+        TextView dateTextView;
+        TextView timeTextView;
+
 //        TextView categoryTextView ;
 //        TextView priceTextView ;
 
-        ExpenseViewHolder(CheckBox checkBox , TextView nameTextView){
+        ExpenseViewHolder(CheckBox checkBox , TextView nameTextView,TextView dateTextView, TextView timeTextView){
             this.checkBox = checkBox;
 //            this.serialNumberTextView = serialNumberTextView;
             this.nameTextView = nameTextView;
+            this.dateTextView = dateTextView;
+            this.timeTextView = timeTextView;
 //            this.categoryTextView = categoryTextView;
 //            this.priceTextView = priceTextView;
         }
@@ -67,9 +74,11 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
 //            TextView serialNumberTextView = (TextView)convertView.findViewById(R.id.serialNumberTextView);
             CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.checkbox);
             TextView nameTextView = (TextView) convertView.findViewById(R.id.expenseNameTextView);
+            TextView dateTextView=(TextView)convertView.findViewById(R.id.expenseDateTextView);
 //            TextView categoryTextView = (TextView) convertView.findViewById(R.id.expenseCategoryTextView);
 //            TextView priceTextView = (TextView) convertView.findViewById(R.id.expensePriceTextView);
-            ExpenseViewHolder expenseViewHolder = new ExpenseViewHolder(checkBox ,nameTextView);
+            TextView timeTextView = (TextView)convertView.findViewById(R.id.expenseTimeTextView);
+            ExpenseViewHolder expenseViewHolder = new ExpenseViewHolder(checkBox ,nameTextView,dateTextView,timeTextView);
             convertView.setTag(expenseViewHolder);
             expenseViewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,6 +100,23 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         expenseViewHolder.checkBox.setChecked(false);
 //        expenseViewHolder.serialNumberTextView.setText(e.id+"");
         expenseViewHolder.nameTextView.setText(e.title);
+        epochTime = e.epoch;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(epochTime);
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DATE);
+        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int min = calendar.get(Calendar.MINUTE);
+        if (e.epoch!=0)
+        { expenseViewHolder.dateTextView.setText(day+"/"+ (month +1) + "/"+year );
+             if(hour!= 0 && min !=0)
+               expenseViewHolder.timeTextView.setText("," + hour + ":"+ min);
+        }
+
+
+
+
 //        expenseViewHolder.categoryTextView.setText(e.category);
 //        expenseViewHolder.priceTextView.setText(e.price+"");
 

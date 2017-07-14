@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -22,6 +23,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
     String title;
     int Id;
     EditText titleTextView;
+    LinearLayout linearLayout;
 //    EditText categoryTextView;
 //    EditText priceTextView;
     EditText dateEditText;
@@ -29,12 +31,15 @@ public class ExpenseDetailActivity extends AppCompatActivity {
     long time;
     long oldtime;
     Calendar dateTime;
+    int flag=0;
+    int flag2=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_detail);
         titleTextView = (EditText) findViewById(R.id.expenseDetailTitleTextView);
+        linearLayout = (LinearLayout)findViewById(R.id.linearlayout);
 //        categoryTextView = (EditText) findViewById(R.id.expenseDetailCategoryTextView);
 //        priceTextView = (EditText) findViewById(R.id.expenseDetailPriceTextView);
         dateEditText = (EditText) findViewById(R.id.expenseDetailDateTextView);
@@ -45,6 +50,14 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         title   = i.getStringExtra(IntentConstants.EXPENSE_TITLE);
         oldtime = i.getLongExtra("epoch",-1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(oldtime);
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DATE);
+        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int min = calendar.get(Calendar.MINUTE);
+
         Id = i.getIntExtra("id", -1);
         setTitle(title);
          if (Id!= -1)
@@ -53,16 +66,16 @@ public class ExpenseDetailActivity extends AppCompatActivity {
              titleTextView.setText(title);
 //             categoryTextView.setText(i.getStringExtra("category"));
 //             priceTextView.setText(oldprice+"");
-             Calendar calendar = Calendar.getInstance();
-             calendar.setTimeInMillis(oldtime);
 
-             int year = calendar.get(Calendar.YEAR);
-             int month = calendar.get(Calendar.MONTH);
-             int day = calendar.get(Calendar.DATE);
-             int hour = calendar.get(Calendar.HOUR_OF_DAY);
-             int min = calendar.get(Calendar.MINUTE);
-             dateEditText.setText(day + "/ "  + month + "/" + year );
-             timeEditText.setText(hour + ":" + min);
+             if (oldtime != 0)
+             {
+             dateEditText.setText(day + "/ "  + (month + 1) +"/" + year );
+                 linearLayout.setVisibility(View.VISIBLE);
+                 if(hour==0&&min==0)
+                     timeEditText.setHint("Time not set");
+                 else
+                     timeEditText.setText(hour + ":" + min);}
+
          }
 
 
@@ -88,6 +101,8 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
             }
         });
+
+
 
 
         timeEditText.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +139,31 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                     return;
                 }
 
+                String timeEdit =timeEditText.getText().toString();
+
+                if(flag==1 && flag2==0){
+
+                    if (timeEdit.trim().isEmpty()) {
+                        dateTime.set(Calendar.HOUR_OF_DAY,0);
+                        dateTime.set(Calendar.MINUTE,0);
+                        time=dateTime.getTime().getTime();
+                    }
+                    else{
+                        dateTime.set(Calendar.HOUR_OF_DAY,hour);
+                        dateTime.set(Calendar.MINUTE,min);
+                        time=dateTime.getTime().getTime();
+                    }
+
+                }
+
+                if(flag==0 && flag2==1){
+                    dateTime.set(year,month,day);
+                    time=dateTime.getTime().getTime();}
+
+
+
+
+
 //                if (!price.isEmpty()){
 //                    newPrice = Double.parseDouble(price);
 //                }
@@ -135,7 +175,11 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                 cv.put(ExpenseOpenHelper.Expense_TITLE, newTitle);
 //                cv.put(ExpenseOpenHelper.Expense_Category,newCategory);
 //                cv.put(ExpenseOpenHelper.Expense_Price, newPrice);
-                cv.put(ExpenseOpenHelper.Expense_DateTIme, time);
+
+                if(Id!=-1 && time ==0)
+                    cv.put(ExpenseOpenHelper.Expense_DateTIme, oldtime);
+                else
+                    cv.put(ExpenseOpenHelper.Expense_DateTIme,time);
 
                 if(Id==-1)
                     database.insert(ExpenseOpenHelper.Expense_Table_Name,null,cv);
@@ -176,13 +220,18 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                         // To get epoch, You can store this date(in epoch) in database
                         dateTime = Calendar.getInstance();
                         dateTime.set(year, month, day);
+                        time= dateTime.getTime().getTime();
                         // Setting date selected in the edit text
                         dateEditText.setText(day + "/" + (month + 1) + "/" + year);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        flag=1;
                     }
                 }, initialYear, initialMonth, initialDay);
 
         //Call show() to simply show the dialog
         datePickerDialog.show();
+
+
 
     }
 
@@ -191,11 +240,13 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                  new TimePickerDialog.OnTimeSetListener() {
                      @Override
                      public void onTimeSet(TimePicker timePicker, int hourofday, int minute) {
-                         dateTime = Calendar.getInstance();
+                         if (flag==0)
+                         {   dateTime=Calendar.getInstance();}
                          dateTime.set(Calendar.HOUR_OF_DAY, hourofday);
                          dateTime.set(Calendar.MINUTE, minute);
                          time = dateTime.getTime().getTime();
                          timeEditText.setText(hourofday + ":" + minute);
+                         flag2=1;
                      }
                  },initialTime,initialMinute,false);
         timePickerDialog.show();
