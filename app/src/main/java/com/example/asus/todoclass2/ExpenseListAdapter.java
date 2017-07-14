@@ -109,9 +109,14 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
         final int hour = calendar.get(Calendar.HOUR_OF_DAY);
         final int min = calendar.get(Calendar.MINUTE);
         if (e.epoch!=0)
-        { expenseViewHolder.dateTextView.setText(day+"/"+ (month +1) + "/"+year );
-             if(hour!= 0 && min !=0)
+        {  expenseViewHolder.dateTextView.setVisibility(View.VISIBLE);
+            expenseViewHolder.dateTextView.setText(day+"/"+ (month +1) + "/"+year );
+             if(hour!= 0)
+                 expenseViewHolder.timeTextView.setVisibility(View.VISIBLE);
                expenseViewHolder.timeTextView.setText("," + hour + ":"+ min);
+             if(hour==0 && min!=0)
+                 expenseViewHolder.timeTextView.setVisibility(View.VISIBLE);
+                 expenseViewHolder.timeTextView.setText("," + hour + ":"+ min);
         }
 
 

@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
         ExpenseOpenHelper expenseOpenHelper = ExpenseOpenHelper.getOpenHelperInstance(this);
         expenseList.clear();
         SQLiteDatabase database = expenseOpenHelper.getReadableDatabase();
-        Cursor cursor = database.query(ExpenseOpenHelper.Expense_Table_Name,null,null,null,null, null, null);
+        Cursor cursor = database.query(ExpenseOpenHelper.Expense_Table_Name,null,null,null,null, null,null);
 //       String column[] = {ExpenseOpenHelper.Expense_TITLE};
 //       Cursor cursor = database.query(ExpenseOpenHelper.Expense_Table_Name,column,ExpenseOpenHelper.Expense_Category+"= food",null,null, null, null);
         while(cursor.moveToNext()){
@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
             if (resultCode == RESULT_OK) {
 
                 updateExpenseList();
+                Toast.makeText(MainActivity.this, "Task Updated", Toast.LENGTH_SHORT).show();
 //                String newTitle = data.getStringExtra(IntentConstants.EXPENSE_TITLE);
 //                int position1 = data.getIntExtra("position",-1);
 //                expenseList.get(position1).title = data.getStringExtra(IntentConstants.EXPENSE_TITLE);
@@ -148,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
 //                    e.position=expenseList.size()+1;
 //                    expenseList.add(e);
                     updateExpenseList();
+                    Toast.makeText(MainActivity.this, "Task Added", Toast.LENGTH_SHORT).show();
+
 
                     expenseListAdapter.notifyDataSetChanged();
                 }else if (resultCode==RESULT_CANCELED){

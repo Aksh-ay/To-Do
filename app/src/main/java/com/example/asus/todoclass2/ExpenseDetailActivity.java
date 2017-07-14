@@ -1,10 +1,13 @@
 package com.example.asus.todoclass2;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -33,6 +37,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
     Calendar dateTime;
     int flag=0;
     int flag2=0;
+    int alarmId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,11 +151,13 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                     if (timeEdit.trim().isEmpty()) {
                         dateTime.set(Calendar.HOUR_OF_DAY,0);
                         dateTime.set(Calendar.MINUTE,0);
+                        dateTime.set(Calendar.SECOND,0);
                         time=dateTime.getTime().getTime();
                     }
                     else{
                         dateTime.set(Calendar.HOUR_OF_DAY,hour);
                         dateTime.set(Calendar.MINUTE,min);
+                        dateTime.set(Calendar.SECOND,0);
                         time=dateTime.getTime().getTime();
                     }
 
@@ -158,6 +165,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 
                 if(flag==0 && flag2==1){
                     dateTime.set(year,month,day);
+                    dateTime.set(Calendar.SECOND,0);
                     time=dateTime.getTime().getTime();}
 
 
@@ -185,6 +193,16 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                     database.insert(ExpenseOpenHelper.Expense_Table_Name,null,cv);
                 else
                     database.update(ExpenseOpenHelper.Expense_Table_Name,cv,ExpenseOpenHelper.Expense_Id + "=" + Id, null);
+
+                if (!timeEditText.getText().toString().isEmpty()){
+                    AlarmManager am = (AlarmManager) ExpenseDetailActivity.this.getSystemService(Context.ALARM_SERVICE);
+                Intent i = new Intent (ExpenseDetailActivity.this,Alarm.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(ExpenseDetailActivity.this,1,i,0);
+                if(Id!=-1 && time ==0)
+                am.set(AlarmManager.RTC,oldtime,pendingIntent);
+                else
+                am.set(AlarmManager.RTC,time,pendingIntent);}
+
 //                Intent i = new Intent();
 //                i.putExtra(IntentConstants.EXPENSE_TITLE, newTitle);
 //                i.putExtra("position",position1);
@@ -192,6 +210,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
 //                i.putExtra("category",newCategory);
                 setResult(RESULT_OK);
                 finish();
+
             }
         });
 
@@ -220,6 +239,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                         // To get epoch, You can store this date(in epoch) in database
                         dateTime = Calendar.getInstance();
                         dateTime.set(year, month, day);
+                        dateTime.set(Calendar.SECOND,0);
                         time= dateTime.getTime().getTime();
                         // Setting date selected in the edit text
                         dateEditText.setText(day + "/" + (month + 1) + "/" + year);
@@ -244,6 +264,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
                          {   dateTime=Calendar.getInstance();}
                          dateTime.set(Calendar.HOUR_OF_DAY, hourofday);
                          dateTime.set(Calendar.MINUTE, minute);
+                         dateTime.set(Calendar.SECOND,0);
                          time = dateTime.getTime().getTime();
                          timeEditText.setText(hourofday + ":" + minute);
                          flag2=1;

@@ -5,6 +5,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
     public class Alarm extends BroadcastReceiver {
@@ -14,6 +17,11 @@ import android.support.v4.app.NotificationCompat;
             // TODO: This method is called when the BroadcastReceiver is receiving
             // an Intent broadcast.
 //        Toast.makeText(context, "Alarm Recieved", Toast.LENGTH_SHORT).show();
+
+//            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//            Ringtone r = RingtoneManager.getRingtone(context, notification);
+//            r.play();
+
 
             NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(context)
                     .setSmallIcon(android.R.drawable.ic_menu_report_image)
