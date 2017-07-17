@@ -41,6 +41,30 @@
            <!--android:hint="Enter Price"-->
            <!--android:layout_margin="20dp"-->
            <!--android:id="@+id/expenseDetailPriceTextView"/>-->
+
+       <LinearLayout
+           android:id="@+id/linearlayout2"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:visibility="gone">
+
+       <CheckBox
+           android:id="@+id/checkbox"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="17dp"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Task Finshed ?"
+           android:textSize="17sp"
+           android:layout_marginTop="3dp"
+           android:textColor="@color/black1"/>
+
+       </LinearLayout>
+
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"

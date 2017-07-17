@@ -13,6 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+;
+
 /**
  * Created by manishakhattar on 22/06/17.
  */
@@ -22,8 +24,12 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
     ArrayList<Expense> expenseArrayList;
     Context context;
     Long epochTime;
+    String[] months = {"Jan" , "Feb" ,"Mar" ,"Apr" ,"May" ,"Jun" ,"Jul" ,"Aug" ,"Sep" ,"Oct" ,"Nov" ,"Dec"};
+    String Month;
+    int timeflag;
 
-      OnCheckBoxClickedListener mlistener;
+
+    OnCheckBoxClickedListener mlistener;
       void setOnCheckClickedListener(OnCheckBoxClickedListener listener){
           this.mlistener = listener;
       }
@@ -101,22 +107,50 @@ public class ExpenseListAdapter extends ArrayAdapter<Expense> {
 //        expenseViewHolder.serialNumberTextView.setText(e.id+"");
         expenseViewHolder.nameTextView.setText(e.title);
         epochTime = e.epoch;
+        timeflag = e.timeFlag;
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(epochTime);
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DATE);
-        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        final int min = calendar.get(Calendar.MINUTE);
-        if (e.epoch!=0)
+        final int hourofday = calendar.get(Calendar.HOUR_OF_DAY);
+        final int minute = calendar.get(Calendar.MINUTE);
+        if (epochTime!=0)
         {  expenseViewHolder.dateTextView.setVisibility(View.VISIBLE);
-            expenseViewHolder.dateTextView.setText(day+"/"+ (month +1) + "/"+year );
-             if(hour!= 0)
+            for (int i=1 ; i<=12;i++)
+            {    if(i==month)
+                Month = months[i];  }
+            expenseViewHolder.dateTextView.setText(Month +" " + day + ", " + year);
+             if(timeflag==1) {
                  expenseViewHolder.timeTextView.setVisibility(View.VISIBLE);
-               expenseViewHolder.timeTextView.setText("," + hour + ":"+ min);
-             if(hour==0 && min!=0)
-                 expenseViewHolder.timeTextView.setVisibility(View.VISIBLE);
-                 expenseViewHolder.timeTextView.setText("," + hour + ":"+ min);
+                 if (hourofday>12){
+                     if (minute<10)
+                         expenseViewHolder.timeTextView.setText(", " +(hourofday-12) + ":" + "0"+ minute + " PM");
+                     else
+                         expenseViewHolder.timeTextView.setText(", " +(hourofday-12) + ":" + minute+ " PM");
+                 }
+                 else if(hourofday<12 && hourofday>0) {
+                     if (minute<10)
+                         expenseViewHolder.timeTextView.setText(", " +hourofday + ":" + "0"+ minute + " AM");
+                     else
+                         expenseViewHolder.timeTextView.setText(", " +hourofday + ":" + minute+ " AM");
+                 }
+                 else if (hourofday==12) {
+                     if (minute < 10)
+                         expenseViewHolder.timeTextView.setText(", " +hourofday + ":" + "0" + minute + " PM");
+                     else
+                         expenseViewHolder.timeTextView.setText(", " + hourofday + ":" + minute + " PM");
+                 }
+
+                 else if (hourofday==0) {
+                     if (minute < 10)
+                         expenseViewHolder.timeTextView.setText(", " +(hourofday+12) + ":" + "0" + minute + " AM");
+                     else
+                         expenseViewHolder.timeTextView.setText(", " +(hourofday+12) + ":" + minute + " AM");
+                 }
+
+             }
+
         }
 
 

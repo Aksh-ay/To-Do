@@ -1,9 +1,14 @@
 package com.example.asus.todoclass2;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,7 +31,7 @@ import android.widget.Toast;
 import java.net.ConnectException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements OnCheckBoxClickedListener {
+public class MainActivity extends AppCompatActivity implements OnCheckBoxClickedListener{
 
     ListView listView;
     //    ArrayList<String> expenseList;
@@ -41,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.expenseListView);
         expenseList = new ArrayList<>();
+
+
+
 //        String str = "";
 //        for (int i = 0; i < 20; i++) {
 //            Expense e = new Expense();
@@ -56,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
         expenseListAdapter = new ExpenseListAdapter(this, expenseList);
 //        expenseListAdapter.setOnButtonClickedListener = (this);
         expenseListAdapter.setOnCheckClickedListener(this);
+
         listView.setAdapter(expenseListAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -68,8 +77,9 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
                 i.putExtra(IntentConstants.EXPENSE_TITLE,expenseList.get(position).title);
 //                i.putExtra("category",expenseList.get(position).category);
 //                i.putExtra("price",expenseList.get(position).price);
-              i.putExtra("id",expenseList.get(position).id);
+              i.putExtra("ID",expenseList.get(position).id);
               i.putExtra("epoch",expenseList.get(position).epoch);
+              i.putExtra("timeFlag",expenseList.get(position).timeFlag);
                 //startActivity(i);
                 startActivityForResult(i, 1);
 
@@ -114,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
             int id = cursor.getInt(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Id));
 //            String category = cursor.getString(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Category));
             long epoch = cursor.getLong(cursor.getColumnIndex(ExpenseOpenHelper.Expense_DateTIme));
-            Expense e = new Expense(title,id,epoch);
+            int timeFlag = cursor.getInt(cursor.getColumnIndex(ExpenseOpenHelper.Expense_TimeFlag));
+            Expense e = new Expense(title,id,epoch,timeFlag);
             expenseList.add(e);
         }
 
@@ -248,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
         }else if(id == R.id.feedback){
                 Intent i = new Intent();
                 i.setAction(Intent.ACTION_SENDTO);
-                Uri uri = Uri.parse("mailto:manisha@condingninjas.in");
+                Uri uri = Uri.parse("mailto:akshayverma154@gmail.com");
                 i.setData(uri);
             i.putExtra(Intent.EXTRA_SUBJECT,"Feedack");
             i.setData(uri);
@@ -267,10 +278,16 @@ public class MainActivity extends AppCompatActivity implements OnCheckBoxClicked
         {  if (expenseList.get(i).id==Id)
             expenseList.remove(i);}
         expenseListAdapter.notifyDataSetChanged();
+
+        AlarmManager am = (AlarmManager) MainActivity.this.getSystemService(Context.ALARM_SERVICE);
+        Intent j = new Intent (MainActivity.this,Alarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,Id,j,PendingIntent.FLAG_UPDATE_CURRENT);
+        am.cancel(pendingIntent);
+
         ExpenseOpenHelper expenseOpenHelper = ExpenseOpenHelper.getOpenHelperInstance(MainActivity.this);
         SQLiteDatabase database = expenseOpenHelper.getWritableDatabase();
         database.delete(ExpenseOpenHelper.Expense_Table_Name,ExpenseOpenHelper.Expense_Id + "=" +Id,null);
-        Toast.makeText(this, "Task Deleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Task Finished", Toast.LENGTH_SHORT).show();
 
 //
 

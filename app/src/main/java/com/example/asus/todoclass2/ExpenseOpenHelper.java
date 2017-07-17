@@ -16,6 +16,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 //    public  final static String Expense_Price = "price";
 //    public  final static String Expense_Category = "category";
     public  final static String Expense_DateTIme = "dateTime";
+    public final static  String Expense_TimeFlag="timeFlag";
     public static  ExpenseOpenHelper expenseOpenHelper;
 
     public  static  ExpenseOpenHelper getOpenHelperInstance (Context context){
@@ -33,7 +34,7 @@ import android.database.sqlite.SQLiteOpenHelper;
     @Override
     public void onCreate(SQLiteDatabase db) {
       String query = "create table " + Expense_Table_Name +"( " + Expense_Id +" integer primary key autoincrement, " + Expense_TITLE
-              +" text, " + Expense_DateTIme + " bigint);";
+              +" text, " + Expense_TimeFlag + " integer, " + Expense_DateTIme + " bigint);";
         db.execSQL(query);
     }
 
