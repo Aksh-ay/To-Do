@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Calendar;
+
 public class RestartReciver extends BroadcastReceiver {
+    long currentTime;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -27,13 +30,17 @@ public class RestartReciver extends BroadcastReceiver {
             String title = cursor.getString(cursor.getColumnIndex(ExpenseOpenHelper.Expense_TITLE));
             long epoch = cursor.getLong(cursor.getColumnIndex(ExpenseOpenHelper.Expense_DateTIme));
             int id = cursor.getInt(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Id));
+            int timeFlag = cursor.getInt(cursor.getColumnIndex(ExpenseOpenHelper.Expense_TimeFlag));
 
 
 //            double price = cursor.getDouble(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Price));
 //            String category = cursor.getString(cursor.getColumnIndex(ExpenseOpenHelper.Expense_Category));
 //            int timeFlag = cursor.getInt(cursor.getColumnIndex(ExpenseOpenHelper.Expense_TimeFlag));
 
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Calendar calendar = Calendar.getInstance();
+            currentTime =calendar.getTime().getTime();
+           if(timeFlag==1 && currentTime<epoch)
+            {AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent i = new Intent (context,Alarm.class);
              i.putExtra("Task",title);
              i.putExtra("epoch",epoch);
@@ -41,7 +48,7 @@ public class RestartReciver extends BroadcastReceiver {
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context,id,i,0);
 
-            am.set(AlarmManager.RTC,epoch,pendingIntent);
+            am.set(AlarmManager.RTC,epoch,pendingIntent);}
 
 
         }
